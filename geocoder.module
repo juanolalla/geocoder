@@ -41,9 +41,7 @@ define('GEOCODER_GOOGLE_AUTH_WORK', 3);
  *    geocoder('google','New York City',array('geometry_type' => 'bounds'));
  */
 function geocoder($handler, $data, $options = array(), $cache_type = 'DEPRECATED', $cache_reset = FALSE) {
-  ctools_include('plugins');
-
-  $processor = ctools_get_plugins('geocoder', 'geocoder_handler', $handler);
+  $processor = geocoder_get_handler($handler);
   if (!$processor) {
     return NULL;
   }
@@ -54,8 +52,6 @@ function geocoder($handler, $data, $options = array(), $cache_type = 'DEPRECATED
   // No cache record, so fetch live.
   if ($geometry === NULL) {
     try {
-      // Load the file.
-      geocoder_get_handler($handler);
       $geometry = call_user_func($processor['callback'], $data, $options);
     }
     catch (Exception $e) {
@@ -101,6 +97,25 @@ function geocoder_menu() {
   return $items;
 }
 
+/**
+ * Loads each plugin file and returns them in an array by name (without .inc).
+ */
+function geocoder_get_plugins($type) {
+  $plugins = &backdrop_static(__FUNCTION__);
+  if (!isset($plugins)) {
+    $plugins = array();
+    $pattern = BACKDROP_ROOT . '/' . backdrop_get_path('module', 'geocoder') . '/' . 'plugins/' . $type . '/*.inc';
+    foreach (glob($pattern) as $filename) {
+      $plugin = NULL;
+      include_once($filename);
+      if (isset($plugin)) {
+        $id = basename($filename, '.inc');
+        $plugins[$id] = $plugin;
+      }
+    }
+  }
+  return $plugins;
+}
 
 /**
  * Geocoder Handler Information
@@ -110,11 +125,9 @@ function geocoder_menu() {
  * handlers that are compatible with that field.
  */
 function geocoder_handler_info($field_type = NULL) {
-  ctools_include('plugins');
-
   static $handlers;
   if (!$handlers) {
-    $handlers = ctools_get_plugins('geocoder', 'geocoder_handler');
+    $handlers = geocoder_get_plugins('geocoder_handler');
   }
   if ($field_type) {
     $field_handlers = $handlers;
@@ -136,7 +149,6 @@ function geocoder_handler_info($field_type = NULL) {
 function geocoder_get_handler($handler_name) {
   $handlers = geocoder_handler_info();
   if (isset($handlers[$handler_name])) {
-    require_once $handlers[$handler_name]['path'] . '/' . $handlers[$handler_name]['file'];
     return $handlers[$handler_name];
   }
   else return FALSE;
@@ -161,33 +173,6 @@ function geocoder_supported_field_types() {
   }
 
   return $supported;
-}
-
-
-/**
- * Implementation of hook_ctools_plugin_api().
- */
-function geocoder_ctools_plugin_api() {
-  return array('version' => 1);
-}
-
-/**
- * Implementation of hook_ctools_plugin_directory() to let the system know
- * we implement plugins.
- */
-function geocoder_ctools_plugin_directory($module, $plugin) {
-  return 'plugins/' . $plugin;
-}
-
-/**
- * Implements hook_ctools_plugin_type
- */
-function geocoder_ctools_plugin_type() {
-  return array(
-    'geocoder_handler' => array(
-      'cache' => TRUE,
-    ),
-  );
 }
 
 // These functions have to do with providing AJAX / AHAH

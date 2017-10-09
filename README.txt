@@ -29,8 +29,7 @@ Here you find great documentation on Geocoder: http://drupal.org/node/1355780
 INSTALL
 -------
 
-Install and enable the Geocoder module and its required modules geoPHP (http://drupal.org/project/geophp) and Chaos tool suite (http://drupal.org/project/ctools) in the usual way. Install and enable the optional modules Addressfield and Geofield.
-Learn more about installing Drupal modules: http://drupal.org/documentation/install/modules-themes/modules-7
+Install and enable the Geocoder module and its required module geoPHP (http://drupal.org/project/geophp).
 
 CONFIGURE
 ---------
