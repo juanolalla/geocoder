@@ -55,5 +55,6 @@ Current Maintainers
 Credits
 -------
 
+- Drupal project maintained by [Pol](https://www.drupal.org/u/pol), [Patrick Hayes](https://www.drupal.org/u/phayes), [Simon Georges](https://www.drupal.org/u/simon-georges), [Brandonian](https://www.drupal.org/u/brandonian) and [Michael Favia](https://www.drupal.org/u/michaelfavia)
 - Originally written for Drupal by cspiker, phayes, henryblyth, jeff h, Les Lim, mikeytown2, fago, patrickavella & michaelfavia
 - Ported to Backdrop CMS by Juan Olalla (https://github.com/juanolalla)
