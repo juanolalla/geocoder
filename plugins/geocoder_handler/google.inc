@@ -24,7 +24,8 @@ $plugin = array(
  */
 function geocoder_google($address, $options = array()) {
   $delay_trigger = &drupal_static(__FUNCTION__);
-  $delay = variable_get('geocoder_google_delay', 0);
+  $config = config('geocoder.settings');
+  $delay = $config->get('geocoder_google_delay');
   if ($delay > 0 && $delay_trigger) {
     usleep($delay * 1000);
   }
@@ -49,20 +50,19 @@ function geocoder_google($address, $options = array()) {
   }
 
   // Add Google API authentication parameters.
-  switch (variable_get('geocoder_google_auth_method')) {
+  switch ($config->get('geocoder_google_auth_method')) {
 
     // Google Geocoding API Key.
   case GEOCODER_GOOGLE_AUTH_KEY:
-    $geocoder_settings = variable_get("geocoder_settings", array());
-    if (!empty($geocoder_settings['geocoder_apikey_google'])) {
-      $query['key'] = $geocoder_settings['geocoder_apikey_google'];
+    if (!empty($config->get('geocoder_apikey_google'))) {
+      $query['key'] = $config->get('geocoder_apikey_google');
     }
     break;
 
     // Google Maps for Work signature.
   case GEOCODER_GOOGLE_AUTH_WORK:
-    $client_id   = variable_get('geocoder_google_client_id', FALSE);
-    $private_key = variable_get('geocoder_google_private_key', FALSE);
+    $client_id   = $config->get('geocoder_google_client_id');
+    $private_key = $config->get('geocoder_google_private_key');
     if (!empty($client_id) && !empty($private_key)) {
       $google_maps_for_work = TRUE;
       $query['client']      = $client_id;
@@ -70,7 +70,7 @@ function geocoder_google($address, $options = array()) {
     break;
   }
 
-  $google_url = 'http://maps.googleapis.com/maps/api/geocode/json';
+  $google_url = 'https://maps.googleapis.com/maps/api/geocode/json';
   if (!empty($options['https'])) {
     $google_url = str_replace('http://', 'https://', $google_url);
   }

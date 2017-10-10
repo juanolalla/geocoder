@@ -22,7 +22,6 @@ $plugin = array(
  * Process Markup
  */
 function geocoder_mapquest_nominatim($address, $options = array()) {
-  $geocoder_settings = variable_get("geocoder_settings", array());
   $api_url = "http://open.mapquestapi.com/nominatim/v1/search";
   $params = array(
     'format' => 'json',

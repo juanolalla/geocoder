@@ -23,10 +23,10 @@ $plugin = array(
  */
 function geocoder_yandex($address, $options = array()) {
   global $base_path;
-  $geocoder_settings = variable_get("geocoder_settings", array());
+  $config = config("geocoder.settings");
 
-  if (!empty($geocoder_settings["geocoder_apikey_yandex"])) {
-    $consumer_key = $geocoder_settings["geocoder_apikey_yandex"];
+  if (!empty($config->get("geocoder_apikey_yandex"))) {
+    $consumer_key = $config->get("geocoder_apikey_yandex");
   }
   else {
     throw new Exception(t('You must set up your Yandex API key. Click !config', array('!config' => l(t('here'), $base_path .'admin/config/content/geocoder'))));

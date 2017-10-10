@@ -23,10 +23,10 @@ $plugin = array(
  */
 function geocoder_yahoo($address, $options = array()) {
   global $base_path;
-  $geocoder_settings = variable_get("geocoder_settings", array());
+  $config = config("geocoder.settings");
 
-  if (!empty($geocoder_settings["geocoder_apikey_yahoo"])) {
-    $consumer_key = $geocoder_settings["geocoder_apikey_yahoo"];
+  if (!empty($config->get("geocoder_apikey_yahoo"))) {
+    $consumer_key = $config->get("geocoder_apikey_yahoo");
   }
   else {
     throw new Exception(t('You must set up your Yahoo API key. Click !config', array('!config' => l(t('here'), $base_path .'admin/config/content/geocoder'))));

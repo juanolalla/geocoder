@@ -23,10 +23,10 @@ $plugin = array(
  */
 function geocoder_mapbox($address, $options = array()) {
   global $base_path;
-  $geocoder_settings = variable_get("geocoder_settings", array());
+  $config = config("geocoder.settings");
 
-  if (!empty($geocoder_settings["geocoder_apikey_mapbox"])) {
-    $access_token = $geocoder_settings["geocoder_apikey_mapbox"];
+  if (!empty($config->get("geocoder_apikey_mapbox"))) {
+    $access_token = $config->get("geocoder_apikey_mapbox");
   }
   else {
     drupal_set_message(t('You must set up your Mapbox access token. Click !config', array('!config' => l(t('here'), $base_path .'admin/config/content/geocoder'))),'error');

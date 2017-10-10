@@ -24,10 +24,10 @@ $plugin = array(
 function geocoder_mapzen($address, $options = array()) {
   geophp_load();
   $api_url = "https://search.mapzen.com/v1/search";
-  $geocoder_settings = variable_get('geocoder_settings', array());
+  $config = config('geocoder.settings');
 
-  if (!empty($geocoder_settings['geocoder_apikey_mapzen'])) {
-    $api_key = $geocoder_settings['geocoder_apikey_mapzen'];
+  if (!empty($config->get('geocoder_apikey_mapzen'))) {
+    $api_key = $config->get('geocoder_apikey_mapzen');
   }
   else {
     throw new Exception('You must specify an API key for Mapzen.');
@@ -45,19 +45,18 @@ function geocoder_mapzen($address, $options = array()) {
 
 function geocoder_mapzen_field($field, $field_item) {
   if ($field['type'] == 'text' || $field['type'] == 'text_long' || $field['type'] == 'text_with_summary' || $field['type'] == 'computed') {
-    return geocoder_mapzen($field_item['value'], $options);
+    return geocoder_mapzen($field_item['value']);
   }
   if ($field['type'] == 'addressfield') {
     $address = geocoder_widget_parse_addressfield($field_item);
-    return geocoder_mapzen($address, $options);
+    return geocoder_mapzen($address);
   }
   if ($field['type'] == 'location') {
     $address = geocoder_widget_parse_locationfield($field_item);
-    return geocoder_mapzen($address, $options);
+    return geocoder_mapzen($address);
   }
   if ($field['type'] == 'taxonomy_term_reference') {
     $term = taxonomy_term_load($field_item['tid']);
     return geocoder_mapzen($term->name);
   }
 }
-

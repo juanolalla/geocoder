@@ -63,7 +63,7 @@ function geocoder($handler, $data, $options = array(), $cache_type = 'DEPRECATED
     geocoder_cache_set($geometry, $handler, $data, $options);
   }
 
-  if (!$geometry && variable_get('geocoder_log_empty_results', FALSE)) {
+  if (!$geometry && config_get('geocoder.settings', 'geocoder_log_empty_results')) {
     watchdog('geocoder', t('No results for geocoding @data', array('@data' => $data)));
   }
 
@@ -330,8 +330,9 @@ function geocoder_cache_get($handler, $data, $options) {
  *   Handler-specific options that have effect on the result.
  */
 function geocoder_cache_set($geometry, $handler, $data, $options) {
+  $config = config('geocoder.settings');
   // Don't cache no-results, to live geocode the same data again next time.
-  if (!$geometry && !variable_get('geocoder_cache_empty_results', TRUE)) {
+  if (!$geometry && !$config->get('geocoder_cache_empty_results')) {
     return;
   }
 
@@ -341,5 +342,16 @@ function geocoder_cache_set($geometry, $handler, $data, $options) {
 
   // Cache result-relevant parameters together with the actual result, so cache records can be traced.
   $data['geometry'] = $geometry ? $geometry : FALSE;
-  cache_set($cid, $data, 'cache_geocoder', variable_get('geocoder_cache_ttl', CACHE_PERMANENT));
+  cache_set($cid, $data, 'cache_geocoder', $config->get('geocoder_cache_ttl'));
+}
+
+/**
+ * Implements hook_config_info().
+ */
+function email_config_info() {
+  $prefixes['email.settings'] = array(
+    'label' => t('Email settings'),
+    'group' => t('Configuration'),
+  );
+  return $prefixes;
 }

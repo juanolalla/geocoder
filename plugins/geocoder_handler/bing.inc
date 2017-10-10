@@ -23,10 +23,10 @@ $plugin = array(
  */
 function geocoder_bing($address, $options = array()) {
   geophp_load();
-  $geocoder_settings = variable_get('geocoder_settings', array());
+  $config = config('geocoder.settings');
 
-  if (!empty($geocoder_settings['geocoder_apikey_bing'])) {
-    $consumer_key = $geocoder_settings['geocoder_apikey_bing'];
+  if (!empty($config->get('geocoder_apikey_bing'))) {
+    $consumer_key = $config->get('geocoder_apikey_bing');
   }
   else {
     throw new Exception('You must specify a key.');

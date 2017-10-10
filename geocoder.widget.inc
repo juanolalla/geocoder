@@ -324,7 +324,8 @@ function geocoder_widget_get_field_value($entity_type, $field_instance, $entity 
       $geometries = array();
       foreach ($source_field_values as $delta => $item) {
         $geometry = NULL;
-        if (!variable_get('geocoder_recode', 0)) {
+        $config = config('geocoder.settings');
+        if (!$config->get('geocoder_recode')) {
           // Attempt to retrieve from persistent cache.
           $geometry = geocoder_cache_get($handler['name'], $item, $handler_settings);
         }
@@ -348,7 +349,7 @@ function geocoder_widget_get_field_value($entity_type, $field_instance, $entity 
         if ($geometry instanceof Geometry) {
           $geometries[] = $geometry;
         }
-        elseif (variable_get('geocoder_log_empty_results', FALSE)) {
+        elseif ($config->get('geocoder_log_empty_results')) {
           watchdog('geocoder', 'No results for geocoding', NULL, WATCHDOG_NOTICE, geocoder_widget_get_link($entity_type, $entity));
         }
       }
