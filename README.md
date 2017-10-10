@@ -2,6 +2,8 @@
 Geocoder
 ========
 
+Backdrop port of the Drupal 7 module [Geocoder](https://www.drupal.org/project/geocoder).
+
 Geocoder is a Backdrop module that will extract geographical data (geocode) from just about anything you throw at it such as addresses, GPX files, Geotags from EXIF data in photos, and KML files.
 
 Geocoder uses the external geocoding services from Google, Yahoo and Yandex.
