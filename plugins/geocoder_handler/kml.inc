@@ -34,7 +34,7 @@ function geocoder_kml_field($field, $field_item) {
       $file = file_load($field_item['fid']);
       $path = $file->uri;
       if ($file->filemime == 'application/vnd.google-earth.kmz' && extension_loaded('zip')) {
-        $path = 'zip://' . drupal_realpath($path) . '#doc.kml';
+        $path = 'zip://' . backdrop_realpath($path) . '#doc.kml';
       }
       $kml = file_get_contents($path);
       return geocoder_kml($kml);

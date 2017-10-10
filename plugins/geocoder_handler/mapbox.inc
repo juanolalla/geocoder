@@ -29,11 +29,11 @@ function geocoder_mapbox($address, $options = array()) {
     $access_token = $config->get("geocoder_apikey_mapbox");
   }
   else {
-    drupal_set_message(t('You must set up your Mapbox access token. Click !config', array('!config' => l(t('here'), $base_path .'admin/config/content/geocoder'))),'error');
+    backdrop_set_message(t('You must set up your Mapbox access token. Click !config', array('!config' => l(t('here'), $base_path .'admin/config/content/geocoder'))),'error');
     return;
   }
 
-  $request = drupal_http_request("https://api.mapbox.com/geocoding/v5/mapbox.places/" . urlencode($address) . ".json?access_token=$access_token");
+  $request = backdrop_http_request("https://api.mapbox.com/geocoding/v5/mapbox.places/" . urlencode($address) . ".json?access_token=$access_token");
   $data = json_decode($request->data);
 
   geophp_load();

@@ -167,8 +167,8 @@ function geocoder_field_widget_settings_form($this_field, $instance) {
   );
 
   // Add javascript to sync allowed values. Note that we are not using AJAX because we do not have access to the raw form_state here
-  drupal_add_js(array('geocoder_widget_settings' => array('handlers' => $handlers_by_type, 'types' => $field_types)), 'setting');
-  drupal_add_js(drupal_get_path('module', 'geocoder') . '/geocoder.admin.js', 'file');
+  backdrop_add_js(array('geocoder_widget_settings' => array('handlers' => $handlers_by_type, 'types' => $field_types)), 'setting');
+  backdrop_add_js(backdrop_get_path('module', 'geocoder') . '/geocoder.admin.js', 'file');
 
   return $form;
 }
@@ -317,7 +317,7 @@ function geocoder_widget_get_field_value($entity_type, $field_instance, $entity 
     }
 
     // Allow other modules to alter values before we geocode them.
-    drupal_alter('geocoder_geocode_values', $source_field_values, $field_info, $handler_settings, $field_instance);
+    backdrop_alter('geocoder_geocode_values', $source_field_values, $field_info, $handler_settings, $field_instance);
 
     if (is_array($source_field_values) && count($source_field_values)) {
       // Geocode geometries.
@@ -498,7 +498,7 @@ function geocoder_widget_parse_addressfield($field_item) {
     }
     else {
       // Convert country code to country name.
-      include_once DRUPAL_ROOT . '/includes/locale.inc';
+      include_once BACKDROP_ROOT . '/includes/locale.inc';
       $countries = country_get_list();
       if (array_key_exists($field_item['country'], $countries)) {
         $field_item['country'] = $countries[$field_item['country']];

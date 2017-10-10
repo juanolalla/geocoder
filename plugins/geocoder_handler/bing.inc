@@ -67,7 +67,7 @@ function geocoder_bing($address, $options = array()) {
   }
 
   $url = url('http://dev.virtualearth.net/REST/v1/Locations', array('query' => $query));
-  $result = drupal_http_request($url);
+  $result = backdrop_http_request($url);
 
   if (isset($result->error)) {
     $args = array(

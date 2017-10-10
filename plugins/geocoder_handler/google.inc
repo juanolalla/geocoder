@@ -23,7 +23,7 @@ $plugin = array(
  * Process Markup
  */
 function geocoder_google($address, $options = array()) {
-  $delay_trigger = &drupal_static(__FUNCTION__);
+  $delay_trigger = &backdrop_static(__FUNCTION__);
   $config = config('geocoder.settings');
   $delay = $config->get('geocoder_google_delay');
   if ($delay > 0 && $delay_trigger) {
@@ -101,7 +101,7 @@ function geocoder_google($address, $options = array()) {
   }
 
   // Send the request.
-  $result = drupal_http_request($url);
+  $result = backdrop_http_request($url);
   $delay_trigger = TRUE;
 
   if (isset($result->error)) {

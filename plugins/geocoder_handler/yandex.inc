@@ -38,7 +38,7 @@ function geocoder_yandex($address, $options = array()) {
     'key' => $consumer_key,
     'geocode' => $address,
   );
-  $request = drupal_http_request("http://geocode-maps.yandex.ru/1.x/?" . http_build_query($params));
+  $request = backdrop_http_request("http://geocode-maps.yandex.ru/1.x/?" . http_build_query($params));
   $data = json_decode($request->data);
 
   return _geocoder_yandex_geometry($data);

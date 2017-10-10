@@ -1,6 +1,6 @@
 (function ($) {
 
-  Drupal.behaviors.geocoderWidgetSettings = {
+  Backdrop.behaviors.geocoderWidgetSettings = {
     attach: function (context, settings) {
       $(':input[name="instance[widget][settings][geocoder_field]"]', context).once('geofield_widget_settings', function () {
         // When the geocoder_field field is changed, update the geocoder_handler options.

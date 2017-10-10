@@ -34,7 +34,7 @@ define('GEOCODER_GOOGLE_AUTH_WORK', 3);
  *
  * @return Geometry
  *   Returns a geoPHP geometry object. Generally a Point.
- *   See http://drupal.org/project/geoPHP and https://github.com/phayes/geoPHP/wiki/API-Reference
+ *   See https://backdropcms.org/project/geoPHP and https://github.com/phayes/geoPHP/wiki/API-Reference
  *
  * @example:
  *    geocoder('google','4925 Gair Ave, Terrace, BC');
@@ -79,7 +79,7 @@ function geocoder_menu() {
   $items['admin/config/content/geocoder'] = array(
     'title' => 'Geocoder settings',
     'description' => 'Configuration for API keys and other global settings.',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('geocoder_admin_settings'),
     'file' => 'geocoder.admin.inc',
     'access arguments' => array('administer site configuration'),
@@ -272,8 +272,8 @@ function geocoder_service_get_content_type($format) {
  */
 function geocoder_service_check_request($handler, $format, $check_ac = TRUE) {
   if (!geocoder_get_handler($handler)) {
-    drupal_set_message(t('Could not find handler @handler', array('@handler' => $handler)), 'error');
-    drupal_not_found();
+    backdrop_set_message(t('Could not find handler @handler', array('@handler' => $handler)), 'error');
+    backdrop_not_found();
     exit();
   }
   if (($format && $format != 'default') && !in_array($format, array_keys(geoPHP::getAdapterMap()))) {
@@ -281,7 +281,7 @@ function geocoder_service_check_request($handler, $format, $check_ac = TRUE) {
     exit();
   }
   if (!geocoder_service_check_perms($handler)) {
-    drupal_access_denied();
+    backdrop_access_denied();
     exit();
   }
 }

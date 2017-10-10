@@ -21,7 +21,7 @@ function geocoder_exif($uri, $options = array()) {
 
   // The user has permission to access the file. Geocode it.
   geophp_load();
-  if ($data = exif_read_data(drupal_realpath($uri))) {
+  if ($data = exif_read_data(backdrop_realpath($uri))) {
     if (!isset($data['GPSLatitudeRef'])) return FALSE;
     $lat = geocoder_exif_from($data['GPSLatitudeRef'], $data['GPSLatitude']);
     $lon = geocoder_exif_from($data['GPSLongitudeRef'], $data['GPSLongitude']);

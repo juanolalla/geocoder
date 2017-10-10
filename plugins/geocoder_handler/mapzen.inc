@@ -38,7 +38,7 @@ function geocoder_mapzen($address, $options = array()) {
     'text' => str_replace(' ', '+', $address),
     'size' => 1,
   );
-  $request = drupal_http_request($api_url . '?' . drupal_http_build_query($params));
+  $request = backdrop_http_request($api_url . '?' . backdrop_http_build_query($params));
   $data = $request->data;
   return geoPHP::load($data);
 }

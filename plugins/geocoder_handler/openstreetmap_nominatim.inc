@@ -32,7 +32,7 @@ function geocoder_openstreetmap_nominatim($address, $options = array()) {
     'limit' => 1,
     'osm_type' => 'N',
   );
-  $request = drupal_http_request($api_url . '?' . urldecode(drupal_http_build_query($params)));
+  $request = backdrop_http_request($api_url . '?' . urldecode(backdrop_http_build_query($params)));
   $data = json_decode($request->data);
   return _geocoder_openstreetmap_nominatim_geometry($data);
 }
